@@ -30,4 +30,10 @@ public:
 	float fNumber = 10.5f;
 	FString myName;
 	bool bGood;
+
+public:
+	// 함수 선언(Declare)
+	//UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintCallable)
+	int Plus(int num1, int num2); 
 };
