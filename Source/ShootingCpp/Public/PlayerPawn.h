@@ -30,6 +30,9 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere)
+	class UBoxComponent* boxComp;
+
+	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* meshComp = nullptr;
 
 	// 가로축, 세로축의 입력값을 저장하고싶다.

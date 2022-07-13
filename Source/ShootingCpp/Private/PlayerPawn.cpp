@@ -2,12 +2,18 @@
 
 
 #include "PlayerPawn.h"
+#include <Components/BoxComponent.h>
 
 // Sets default values
 APlayerPawn::APlayerPawn()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	// 충돌체를 생성하고 루트컴포넌트로 설정하고싶다.
+	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("boxComp"));
+	SetRootComponent(boxComp);
+
 	// 외관을 담당할 Static Mesh Component를 생성하고싶다.
 	meshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("meshComp"));
 
