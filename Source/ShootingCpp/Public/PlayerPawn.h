@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -6,7 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "PlayerPawn.generated.h"
 
-//class UStaticMeshComponent; // Àü¹æ¼±¾ğ
+//class UStaticMeshComponent; // ì „ë°©ì„ ì–¸
 
 UCLASS()
 class SHOOTINGCPP_API APlayerPawn : public APawn
@@ -35,9 +35,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* meshComp = nullptr;
 
-	// °¡·ÎÃà, ¼¼·ÎÃàÀÇ ÀÔ·Â°ªÀ» ÀúÀåÇÏ°í½Í´Ù.
-	// »ì¾Æ°¡¸é¼­ ÀÔ·ÂµÈ µÎ ÃàÀÇ °ªÀ¸·Î ¹æÇâÀ» ¸¸µé°í
-	// P = P0 + vt¸¦ ÀÌ¿ëÇØ¼­ ÀÌµ¿ÇÏ°í½Í´Ù.
+	// ê°€ë¡œì¶•, ì„¸ë¡œì¶•ì˜ ì…ë ¥ê°’ì„ ì €ì¥í•˜ê³ ì‹¶ë‹¤.
+	// ì‚´ì•„ê°€ë©´ì„œ ì…ë ¥ëœ ë‘ ì¶•ì˜ ê°’ìœ¼ë¡œ ë°©í–¥ì„ ë§Œë“¤ê³ 
+	// P = P0 + vtë¥¼ ì´ìš©í•´ì„œ ì´ë™í•˜ê³ ì‹¶ë‹¤.
 	float h;
 	float v;
 	float speed = 500;
@@ -46,13 +46,17 @@ public:
 	void OnAxisHorizontal(float value);
 	void OnAxisVertical(float value);
 
-	// Fire¹öÆ°ÀÌ ´­·¯Áö¸é ÃÑ¾Ë°øÀå¿¡¼­ ÃÑ¾ËÀ» ¸¸µé¾î¼­ ÃÑ±¸ À§Ä¡¿¡ ¹èÄ¡ÇÏ°í½Í´Ù.
-	UPROPERTY(EditAnywhere)
+	// Fireë²„íŠ¼ì´ ëˆŒëŸ¬ì§€ë©´ ì´ì•Œê³µì¥ì—ì„œ ì´ì•Œì„ ë§Œë“¤ì–´ì„œ ì´êµ¬ ìœ„ì¹˜ì— ë°°ì¹˜í•˜ê³ ì‹¶ë‹¤.
+	UPROPERTY(EditAnywhere, Category = Bullet)
 	TSubclassOf<class ABulletActor> bulletFactory;
 
 	UPROPERTY(EditAnywhere)
 	class UArrowComponent* firePosition;
 
 	void OnActionFire();
+
+	// Fire ì•¡ì…˜ì´ ë°œìƒí•˜ë©´ ì†Œë¦¬ë¥¼ ì¶œë ¥í•˜ê³ ì‹¶ë‹¤.
+	UPROPERTY(EditAnywhere)
+	class USoundBase* soundFire;
 
 };

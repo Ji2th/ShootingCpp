@@ -3,12 +3,15 @@
 
 #include "PlayerPawn.h"
 #include <Components/BoxComponent.h>
+#include <Components/ArrowComponent.h>
+#include "BulletActor.h"
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 APlayerPawn::APlayerPawn()
 {
 
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	// 충돌체를 생성하고 루트컴포넌트로 설정하고싶다.
@@ -20,13 +23,20 @@ APlayerPawn::APlayerPawn()
 
 	// meshComp를 Root에 붙이고싶다.
 	meshComp->SetupAttachment(RootComponent);
+
+	firePosition = CreateDefaultSubobject<UArrowComponent>(TEXT("firePosition"));
+
+	firePosition->SetRelativeLocation(FVector(0, 0, 100));
+	firePosition->SetRelativeRotation(FRotator(90, 0, 0));
+
+	firePosition->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
 void APlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -54,6 +64,8 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis(TEXT("Horizontal"), this, &APlayerPawn::OnAxisHorizontal);
 
 	PlayerInputComponent->BindAxis(TEXT("Vertical"), this, &APlayerPawn::OnAxisVertical);
+
+	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &APlayerPawn::OnActionFire);
 }
 
 void APlayerPawn::OnAxisHorizontal(float value)
@@ -64,5 +76,16 @@ void APlayerPawn::OnAxisHorizontal(float value)
 void APlayerPawn::OnAxisVertical(float value)
 {
 	v = value;
+}
+
+// 버튼이 눌러진 순간
+void APlayerPawn::OnActionFire()
+{
+	// 총알공장에서 총알을 만들어서 총구위치에 배치하고싶다.
+	// SpawnActor
+	GetWorld()->SpawnActor<ABulletActor>(bulletFactory, firePosition->GetComponentLocation(), firePosition->GetComponentRotation());
+
+	// 총알소리를 출력하고싶다.
+	UGameplayStatics::PlaySound2D(GetWorld(), soundFire);
 }
 
