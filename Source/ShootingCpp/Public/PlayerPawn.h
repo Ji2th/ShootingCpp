@@ -42,7 +42,17 @@ public:
 	float v;
 	float speed = 500;
 
+
 	void OnAxisHorizontal(float value);
 	void OnAxisVertical(float value);
+
+	// Fire버튼이 눌러지면 총알공장에서 총알을 만들어서 총구 위치에 배치하고싶다.
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class ABulletActor> bulletFactory;
+
+	UPROPERTY(EditAnywhere)
+	class UArrowComponent* firePosition;
+
+	void OnActionFire();
 
 };

@@ -23,4 +23,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+public:
+	// 앞으로 이동하고싶다.
+	// 충돌을 하기위해서 UBoxComponent
+	// 외관을 담당하는 UStaticMeshComponent
+	UPROPERTY(EditAnywhere)
+	class UBoxComponent* boxComp;
+
+	UPROPERTY(EditAnywhere)
+	class UStaticMeshComponent* meshComp;
+
+	UPROPERTY(EditAnywhere)
+	float speed = 1000;
 };
