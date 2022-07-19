@@ -4,6 +4,7 @@
 #include "BulletActor.h"
 #include <Components/BoxComponent.h>
 #include <Components/StaticMeshComponent.h>
+#include "EnemyActor.h"
 
 // Sets default values
 ABulletActor::ABulletActor()
@@ -21,6 +22,26 @@ ABulletActor::ABulletActor()
 
 	boxComp->SetBoxExtent(FVector(37.5f, 12.5f, 50));
 	meshComp->SetRelativeScale3D(FVector(0.75f, 0.25f, 1));
+
+	boxComp->SetGenerateOverlapEvents(true);
+	boxComp->SetCollisionProfileName(TEXT("Bullet"));
+	/*
+	boxComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	
+	// Ctrl + K + D 자동 들여쓰기
+	// Ctrl + K + C 주석하기
+	// Ctrl + K + U 주석풀기
+//ECC_GameTraceChannel1: Player
+//ECC_GameTraceChannel2 : Bullet
+//ECC_GameTraceChannel3 : Enemy
+//ECC_GameTraceChannel4 : DestroyZone
+
+	boxComp->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel2);
+
+	boxComp->SetCollisionResponseToAllChannels(ECR_Ignore);
+	boxComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECR_Overlap);
+	boxComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECR_Overlap);
+	*/
 }
 
 // Called when the game starts or when spawned
@@ -39,5 +60,19 @@ void ABulletActor::Tick(float DeltaTime)
 	FVector p0 = GetActorLocation();
 	// 2. 그 방향으로 이동하고싶다. (P = P0 + vt)
 	SetActorLocation(p0 + dir * speed * DeltaTime);
+}
+
+void ABulletActor::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	AEnemyActor* enemy = Cast<AEnemyActor>(OtherActor);
+	if (enemy != nullptr)
+	{
+		// 너죽고
+		enemy->Destroy();
+	}else{
+	}
+	
+	// 나죽자
+	Destroy();
 }
 

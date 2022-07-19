@@ -23,6 +23,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
 public:
 	// 앞으로 이동하고싶다.
 	// 충돌을 하기위해서 UBoxComponent

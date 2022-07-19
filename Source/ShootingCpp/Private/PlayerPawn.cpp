@@ -30,6 +30,9 @@ APlayerPawn::APlayerPawn()
 	firePosition->SetRelativeRotation(FRotator(90, 0, 0));
 
 	firePosition->SetupAttachment(RootComponent);
+
+	boxComp->SetGenerateOverlapEvents(true);
+	boxComp->SetCollisionProfileName(TEXT("Player"));
 }
 
 // Called when the game starts or when spawned
