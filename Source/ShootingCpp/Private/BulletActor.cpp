@@ -39,6 +39,5 @@ void ABulletActor::Tick(float DeltaTime)
 	FVector p0 = GetActorLocation();
 	// 2. 그 방향으로 이동하고싶다. (P = P0 + vt)
 	SetActorLocation(p0 + dir * speed * DeltaTime);
-
 }
 
