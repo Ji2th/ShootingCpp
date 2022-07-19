@@ -25,6 +25,9 @@ ABulletActor::ABulletActor()
 
 	boxComp->SetGenerateOverlapEvents(true);
 	boxComp->SetCollisionProfileName(TEXT("Bullet"));
+
+	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ABulletActor::OnBoxCompBeginOverlap);
+
 	/*
 	boxComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	
@@ -64,12 +67,24 @@ void ABulletActor::Tick(float DeltaTime)
 
 void ABulletActor::NotifyActorBeginOverlap(AActor* OtherActor)
 {
+	//AEnemyActor* enemy = Cast<AEnemyActor>(OtherActor);
+	//if (enemy != nullptr)
+	//{
+	//	// ³ÊÁ×°í
+	//	enemy->Destroy();
+	//}
+	//
+	//// ³ªÁ×ÀÚ
+	//Destroy();
+}
+
+void ABulletActor::OnBoxCompBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
 	AEnemyActor* enemy = Cast<AEnemyActor>(OtherActor);
 	if (enemy != nullptr)
 	{
 		// ³ÊÁ×°í
 		enemy->Destroy();
-	}else{
 	}
 	
 	// ³ªÁ×ÀÚ
