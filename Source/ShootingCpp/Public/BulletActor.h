@@ -29,6 +29,9 @@ public:
 	void OnBoxCompBeginOverlap(UPrimitiveComponent* OverlappedComponent,
 		AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	// 충돌했을 때 폭발 VFX를 상대방 위치에 배치하고싶다.
+	UPROPERTY(EditAnywhere, Category = VFX)
+	class UParticleSystem* explosionFactory;
 
 public:
 	// 앞으로 이동하고싶다.
@@ -42,4 +45,6 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	float speed = 1000;
+
+
 };

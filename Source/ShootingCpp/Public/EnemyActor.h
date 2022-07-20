@@ -23,6 +23,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION()
+	void OnBoxCompBeginOverlap(UPrimitiveComponent* OverlappedComponent,
+			AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	// 충돌했을 때 폭발 VFX를 상대방 위치에 배치하고싶다.
+	UPROPERTY(EditAnywhere, Category = VFX)
+	class UParticleSystem* explosionFactory;
+
 	// 태어날 때(BeginPlay) 방향을 앞방향으로 정하고싶다.
 	// 살아가면서(Tick) 그 방향으로 이동하고싶다.
 	FVector dir;

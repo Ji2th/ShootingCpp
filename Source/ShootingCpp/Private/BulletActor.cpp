@@ -5,6 +5,7 @@
 #include <Components/BoxComponent.h>
 #include <Components/StaticMeshComponent.h>
 #include "EnemyActor.h"
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 ABulletActor::ABulletActor()
@@ -51,7 +52,6 @@ ABulletActor::ABulletActor()
 void ABulletActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -83,9 +83,14 @@ void ABulletActor::OnBoxCompBeginOverlap(UPrimitiveComponent* OverlappedComponen
 	AEnemyActor* enemy = Cast<AEnemyActor>(OtherActor);
 	if (enemy != nullptr)
 	{
+		// 폭발 VFX를 만들어서 플레이어 위치에 배치하고싶다.
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), explosionFactory, enemy->GetActorLocation());
 		// 너죽고
 		enemy->Destroy();
 	}
+	//if (OtherActor->IsA<AEnemyActor>())
+	//{
+	//}
 	
 	// 나죽자
 	Destroy();
