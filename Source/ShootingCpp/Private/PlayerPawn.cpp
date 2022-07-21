@@ -1,5 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+ï»¿
 
 #include "PlayerPawn.h"
 #include <Components/BoxComponent.h>
@@ -14,14 +13,14 @@ APlayerPawn::APlayerPawn()
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Ãæµ¹Ã¼¸¦ »ı¼ºÇÏ°í ·çÆ®ÄÄÆ÷³ÍÆ®·Î ¼³Á¤ÇÏ°í½Í´Ù.
+	// ì¶©ëŒì²´ë¥¼ ìƒì„±í•˜ê³  ë£¨íŠ¸ì»´í¬ë„ŒíŠ¸ë¡œ ì„¤ì •í•˜ê³ ì‹¶ë‹¤.
 	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("boxComp"));
 	SetRootComponent(boxComp);
 
-	// ¿Ü°üÀ» ´ã´çÇÒ Static Mesh Component¸¦ »ı¼ºÇÏ°í½Í´Ù.
+	// ì™¸ê´€ì„ ë‹´ë‹¹í•  Static Mesh Componentë¥¼ ìƒì„±í•˜ê³ ì‹¶ë‹¤.
 	meshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("meshComp"));
 
-	// meshComp¸¦ Root¿¡ ºÙÀÌ°í½Í´Ù.
+	// meshCompë¥¼ Rootì— ë¶™ì´ê³ ì‹¶ë‹¤.
 	meshComp->SetupAttachment(RootComponent);
 
 	firePosition = CreateDefaultSubobject<UArrowComponent>(TEXT("firePosition"));
@@ -46,13 +45,13 @@ void APlayerPawn::BeginPlay()
 void APlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	UE_LOG(LogTemp, Warning, TEXT("%f"), h);
+	//UE_LOG(LogTemp, Warning, TEXT("%f"), h);
 
-	// 1. »ç¿ëÀÚÀÇ ÀÔ·ÂÀ» ¹Ş°í
-	// 2. ±× ÀÔ·Â°ªÀ¸·Î ¹æÇâÀ» ¸¸µé°í
+	// 1. ì‚¬ìš©ìì˜ ì…ë ¥ì„ ë°›ê³ 
+	// 2. ê·¸ ì…ë ¥ê°’ìœ¼ë¡œ ë°©í–¥ì„ ë§Œë“¤ê³ 
 	FVector dir = FVector(0, h, v);
-	dir.Normalize(); // º¤ÅÍÀÇ ±æÀÌ¸¦ 1·Î ¸¸µé°í½Í´Ù.
-	// 3. ±× ¹æÇâÀ¸·Î ÀÌµ¿ÇÏ°í½Í´Ù.
+	dir.Normalize(); // ë²¡í„°ì˜ ê¸¸ì´ë¥¼ 1ë¡œ ë§Œë“¤ê³ ì‹¶ë‹¤.
+	// 3. ê·¸ ë°©í–¥ìœ¼ë¡œ ì´ë™í•˜ê³ ì‹¶ë‹¤.
 	// P = P0 + vt;
 	FVector P0 = GetActorLocation();
 	FVector vt = dir * speed * DeltaTime;
@@ -81,14 +80,14 @@ void APlayerPawn::OnAxisVertical(float value)
 	v = value;
 }
 
-// ¹öÆ°ÀÌ ´­·¯Áø ¼ø°£
+// ë²„íŠ¼ì´ ëˆŒëŸ¬ì§„ ìˆœê°„
 void APlayerPawn::OnActionFire()
 {
-	// ÃÑ¾Ë°øÀå¿¡¼­ ÃÑ¾ËÀ» ¸¸µé¾î¼­ ÃÑ±¸À§Ä¡¿¡ ¹èÄ¡ÇÏ°í½Í´Ù.
+	// ì´ì•Œê³µì¥ì—ì„œ ì´ì•Œì„ ë§Œë“¤ì–´ì„œ ì´êµ¬ìœ„ì¹˜ì— ë°°ì¹˜í•˜ê³ ì‹¶ë‹¤.
 	// SpawnActor
 	GetWorld()->SpawnActor<ABulletActor>(bulletFactory, firePosition->GetComponentLocation(), firePosition->GetComponentRotation());
 
-	// ÃÑ¾Ë¼Ò¸®¸¦ Ãâ·ÂÇÏ°í½Í´Ù.
+	// ì´ì•Œì†Œë¦¬ë¥¼ ì¶œë ¥í•˜ê³ ì‹¶ë‹¤.
 	UGameplayStatics::PlaySound2D(GetWorld(), soundFire);
 }
 

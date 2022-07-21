@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -25,16 +25,16 @@ public:
 
 
 public:
-	// ¿Ü°üÀ» ´ã´çÇÒ StaticMeshComponent¸¦ ¼±¾ğÇÏ°í½Í´Ù.
+	// ì™¸ê´€ì„ ë‹´ë‹¹í•  StaticMeshComponentë¥¼ ì„ ì–¸í•˜ê³ ì‹¶ë‹¤.
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* meshComp;
-	// ½ÃÀÛÇÒ ¶§ ¸¸¾à targetÀÌ nullptrÀÌ¶ó¸é ÇÃ·¹ÀÌ¾î¸¦ Ã£¾Æ¼­ target¿¡ ´ëÀÔÇÏ°í½Í´Ù.
-	// »ì¾Æ°¡¸é¼­ Å¸°ÙÀ» ÇâÇØ ÀÌµ¿ÇÏ°í½Í´Ù. P = P0 + vt
-	// ÇÊ¿ä¼Ó¼º
-	// - Å¸°Ù
+	// ì‹œì‘í•  ë•Œ ë§Œì•½ targetì´ nullptrì´ë¼ë©´ í”Œë ˆì´ì–´ë¥¼ ì°¾ì•„ì„œ targetì— ëŒ€ì…í•˜ê³ ì‹¶ë‹¤.
+	// ì‚´ì•„ê°€ë©´ì„œ íƒ€ê²Ÿì„ í–¥í•´ ì´ë™í•˜ê³ ì‹¶ë‹¤. P = P0 + vt
+	// í•„ìš”ì†ì„±
+	// - íƒ€ê²Ÿ
 	UPROPERTY(EditAnywhere)
 	AActor* target = nullptr;
-	// - ¼Ó·Â
+	// - ì†ë ¥
 	UPROPERTY(EditAnywhere)
 	float speed;
 };

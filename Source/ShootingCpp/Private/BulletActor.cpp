@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "BulletActor.h"
@@ -6,6 +6,7 @@
 #include <Components/StaticMeshComponent.h>
 #include "EnemyActor.h"
 #include <Kismet/GameplayStatics.h>
+#include "ShootingGameModeBase.h"
 
 // Sets default values
 ABulletActor::ABulletActor()
@@ -13,12 +14,12 @@ ABulletActor::ABulletActor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// ÄÄÆ÷³ÍÆ® »ı¼º
+	// ì»´í¬ë„ŒíŠ¸ ìƒì„±
 	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("boxComp"));
 	meshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("meshComp"));
-	// ¹Ú½º¸¦ ·çÆ®·Î
+	// ë°•ìŠ¤ë¥¼ ë£¨íŠ¸ë¡œ
 	SetRootComponent(boxComp);
-	// ¿Ü°üÀ» ¹Ú½ºÀÇ ÀÚ½ÄÀ¸·Î ÇÏ°í½Í´Ù.
+	// ì™¸ê´€ì„ ë°•ìŠ¤ì˜ ìì‹ìœ¼ë¡œ í•˜ê³ ì‹¶ë‹¤.
 	meshComp->SetupAttachment(boxComp);
 
 	boxComp->SetBoxExtent(FVector(37.5f, 12.5f, 50));
@@ -32,9 +33,9 @@ ABulletActor::ABulletActor()
 	/*
 	boxComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	
-	// Ctrl + K + D ÀÚµ¿ µé¿©¾²±â
-	// Ctrl + K + C ÁÖ¼®ÇÏ±â
-	// Ctrl + K + U ÁÖ¼®Ç®±â
+	// Ctrl + K + D ìë™ ë“¤ì—¬ì“°ê¸°
+	// Ctrl + K + C ì£¼ì„í•˜ê¸°
+	// Ctrl + K + U ì£¼ì„í’€ê¸°
 //ECC_GameTraceChannel1: Player
 //ECC_GameTraceChannel2 : Bullet
 //ECC_GameTraceChannel3 : Enemy
@@ -58,10 +59,10 @@ void ABulletActor::BeginPlay()
 void ABulletActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	// 1. ¾Õ ¹æÇâÀ» ¸¸µé°í
+	// 1. ì• ë°©í–¥ì„ ë§Œë“¤ê³ 
 	FVector dir = GetActorForwardVector();
 	FVector p0 = GetActorLocation();
-	// 2. ±× ¹æÇâÀ¸·Î ÀÌµ¿ÇÏ°í½Í´Ù. (P = P0 + vt)
+	// 2. ê·¸ ë°©í–¥ìœ¼ë¡œ ì´ë™í•˜ê³ ì‹¶ë‹¤. (P = P0 + vt)
 	SetActorLocation(p0 + dir * speed * DeltaTime);
 }
 
@@ -70,11 +71,11 @@ void ABulletActor::NotifyActorBeginOverlap(AActor* OtherActor)
 	//AEnemyActor* enemy = Cast<AEnemyActor>(OtherActor);
 	//if (enemy != nullptr)
 	//{
-	//	// ³ÊÁ×°í
+	//	// ë„ˆì£½ê³ 
 	//	enemy->Destroy();
 	//}
 	//
-	//// ³ªÁ×ÀÚ
+	//// ë‚˜ì£½ì
 	//Destroy();
 }
 
@@ -83,16 +84,23 @@ void ABulletActor::OnBoxCompBeginOverlap(UPrimitiveComponent* OverlappedComponen
 	AEnemyActor* enemy = Cast<AEnemyActor>(OtherActor);
 	if (enemy != nullptr)
 	{
-		// Æø¹ß VFX¸¦ ¸¸µé¾î¼­ ÇÃ·¹ÀÌ¾î À§Ä¡¿¡ ¹èÄ¡ÇÏ°í½Í´Ù.
+		// í­ë°œ VFXë¥¼ ë§Œë“¤ì–´ì„œ í”Œë ˆì´ì–´ ìœ„ì¹˜ì— ë°°ì¹˜í•˜ê³ ì‹¶ë‹¤.
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), explosionFactory, enemy->GetActorLocation());
-		// ³ÊÁ×°í
+		// ë„ˆì£½ê³ 
 		enemy->Destroy();
+
+		// ì ìˆ˜ë¥¼ 1ì  ì¦ê°€ì‹œí‚¤ê³ ì‹¶ë‹¤.
+		// 1. AShootingGameModeBaseì¸ìŠ¤í„´ìŠ¤ë¥¼ ê°€ì ¸ì˜¤ê³ ì‹¶ë‹¤.
+		auto gameMode = GetWorld()->GetAuthGameMode();
+		auto realGameMode = Cast<AShootingGameModeBase>(gameMode);
+		// 2. ê·¸ ë…€ì„ì˜ AddScoreí•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ê³ ì‹¶ë‹¤.
+		realGameMode->AddScore(1);
 	}
 	//if (OtherActor->IsA<AEnemyActor>())
 	//{
 	//}
 	
-	// ³ªÁ×ÀÚ
+	// ë‚˜ì£½ì
 	Destroy();
 }
 

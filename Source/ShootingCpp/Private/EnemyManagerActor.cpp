@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "EnemyManagerActor.h"
@@ -30,14 +30,14 @@ void AEnemyManagerActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	/*
-	// 1. ½Ã°£ÀÌ Èå¸£´Ù°¡(ÇöÀç½Ã°£¿¡ DeltaTimeÀ» ´©ÀûÇÏ´Ù°¡)
+	// 1. ì‹œê°„ì´ íë¥´ë‹¤ê°€(í˜„ìž¬ì‹œê°„ì— DeltaTimeì„ ëˆ„ì í•˜ë‹¤ê°€)
 	currentTime += DeltaTime;
-	// 2. ¸¸¾à ÇöÀç½Ã°£ > »ý¼º½Ã°£ ¶ó¸é
+	// 2. ë§Œì•½ í˜„ìž¬ì‹œê°„ > ìƒì„±ì‹œê°„ ë¼ë©´
 	if (currentTime > makeTime)
 	{
-		// 3. MekeEnemyÇÔ¼ö¸¦ È£ÃâÇÏ°í½Í´Ù.
+		// 3. MekeEnemyí•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ê³ ì‹¶ë‹¤.
 		MakeEnemy();
-		// 4. ÇöÀç½Ã°£À» 0À¸·Î ÃÊ±âÈ­ ÇÏ°í½Í´Ù.
+		// 4. í˜„ìž¬ì‹œê°„ì„ 0ìœ¼ë¡œ ì´ˆê¸°í™” í•˜ê³ ì‹¶ë‹¤.
 		currentTime = 0;
 	}
 	*/
@@ -45,7 +45,12 @@ void AEnemyManagerActor::Tick(float DeltaTime)
 
 void AEnemyManagerActor::MakeEnemy()
 {
-	// Àû°øÀå¿¡¼­ ÀûÀ» ¸¸µé¾î¼­ arrowComp¿¡ ¹èÄ¡ÇÏ°í½Í´Ù.
+	// ë§Œì•½ í”Œë ˆì´ì–´ê°€ ì¡´ìž¬í•˜ì§€ ì•ŠëŠ”ë‹¤ë©´ í•¨ìˆ˜ë¥¼ ë°”ë¡œ ì¢…ë£Œí•˜ê³ ì‹¶ë‹¤.
+	if (nullptr == GetWorld()->GetFirstPlayerController()->GetPawn())
+	{
+		return;
+	}
+	// ì ê³µìž¥ì—ì„œ ì ì„ ë§Œë“¤ì–´ì„œ arrowCompì— ë°°ì¹˜í•˜ê³ ì‹¶ë‹¤.
 	GetWorld()->SpawnActor<AEnemyActor>(enemyFactory, arrowComp->GetComponentTransform());
 }
 

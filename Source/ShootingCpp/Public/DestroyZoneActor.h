@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -22,5 +22,13 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+public:
+	// 충돌체 만들고 충돌 Preset설정하고싶다.
+	// 상대방과 충돌시 상대를 파괴하고싶다.
+	UPROPERTY(EditAnywhere)
+	class UBoxComponent* boxComp;
+
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 };

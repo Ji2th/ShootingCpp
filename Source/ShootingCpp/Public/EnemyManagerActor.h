@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -23,20 +23,20 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	//1. ½Ã°£ÀÌ Èå¸£´Ù°¡
-	//2. ¸¸¾à ÇöÀç½Ã°£ÀÌ »ı¼º½Ã°£À» ÃÊ°úÇÏ¸é
-	//3. Àû°øÀå¿¡¼­ ÀûÀ» »ı¼ºÇØ¼­ È­»ìÇ¥ À§Ä¡¿¡ ¹èÄ¡ÇÏ°í½Í´Ù.
-	//4. ÇöÀç½Ã°£À» 0À¸·Î ÃÊ±âÈ­ ÇÏ°í½Í´Ù.
-	// ÇÊ¿ä ¼Ó¼º
-	// - È­»ìÇ¥
-	UPROPERTY(EditAnywhere)
+	//1. ì‹œê°„ì´ íë¥´ë‹¤ê°€
+	//2. ë§Œì•½ í˜„ì¬ì‹œê°„ì´ ìƒì„±ì‹œê°„ì„ ì´ˆê³¼í•˜ë©´
+	//3. ì ê³µì¥ì—ì„œ ì ì„ ìƒì„±í•´ì„œ í™”ì‚´í‘œ ìœ„ì¹˜ì— ë°°ì¹˜í•˜ê³ ì‹¶ë‹¤.
+	//4. í˜„ì¬ì‹œê°„ì„ 0ìœ¼ë¡œ ì´ˆê¸°í™” í•˜ê³ ì‹¶ë‹¤.
+	// í•„ìš” ì†ì„±
+	// - í™”ì‚´í‘œ
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UArrowComponent* arrowComp;
-	// - Àû °øÀå
+	// - ì  ê³µì¥
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AEnemyActor> enemyFactory;
-	// - ÇöÀç½Ã°£
+	// - í˜„ì¬ì‹œê°„
 	float currentTime;
-	// - »ı¼º½Ã°£
+	// - ìƒì„±ì‹œê°„
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float makeTime = 1;
 

@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "EnemyActor.h"
@@ -27,22 +27,27 @@ AEnemyActor::AEnemyActor()
 void AEnemyActor::BeginPlay()
 {
 	Super::BeginPlay();
-	// ÅÂ¾î³¯ ¶§(BeginPlay) ¹æÇâÀ» Á¤ÇÏ°í½Í´Ù.
-	// 30% È®·ü·Î ÇÃ·¹ÀÌ¾î¹æÇâ
-	// ³ª¸ÓÁö È®·ü·Î ¾Õ¹æÇâÀ¸·Î Á¤ÇÏ°í½Í´Ù.
+	// íƒœì–´ë‚  ë•Œ(BeginPlay) ë°©í–¥ì„ ì •í•˜ê³ ì‹¶ë‹¤.
+	// 30% í™•ë¥ ë¡œ í”Œë ˆì´ì–´ë°©í–¥
+	// ë‚˜ë¨¸ì§€ í™•ë¥ ë¡œ ì•ë°©í–¥ìœ¼ë¡œ ì •í•˜ê³ ì‹¶ë‹¤.
 	int randValue = FMath::RandRange(0, 9);
 	if (randValue < 3) { // 30%
-		// ¹æÇâ = Å¸°Ù - ³ª
-		FVector targetLoc = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
-	
-		dir = targetLoc - GetActorLocation();
-		dir.Normalize();
+		// ë°©í–¥ = íƒ€ê²Ÿ - ë‚˜
+		auto target = GetWorld()->GetFirstPlayerController()->GetPawn();
+		if (nullptr == target){
+			dir = GetActorForwardVector();
+		}else {
+			FVector targetLoc = target->GetActorLocation();
+
+			dir = targetLoc - GetActorLocation();
+			dir.Normalize();
+		}
 	}
 	else { // 70%
 		dir = GetActorForwardVector();
 	}
-	// Ctrl + K + C // ÁÖ¼®ÇÏ±â
-	// Ctrl + K + U // ÁÖ¼®Ç®±â
+	// Ctrl + K + C // ì£¼ì„í•˜ê¸°
+	// Ctrl + K + U // ì£¼ì„í’€ê¸°
 	SetActorRotation(UKismetMathLibrary::MakeRotFromXZ(dir, GetActorUpVector()));
 
 }
@@ -51,23 +56,23 @@ void AEnemyActor::BeginPlay()
 void AEnemyActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	// »ì¾Æ°¡¸é¼­(Tick) ±× ¹æÇâÀ¸·Î ÀÌµ¿ÇÏ°í½Í´Ù.
-	// P = P0 + v(velocity : dir * speed) * t(¼ø°£ÀÇ½Ã°£)
+	// ì‚´ì•„ê°€ë©´ì„œ(Tick) ê·¸ ë°©í–¥ìœ¼ë¡œ ì´ë™í•˜ê³ ì‹¶ë‹¤.
+	// P = P0 + v(velocity : dir * speed) * t(ìˆœê°„ì˜ì‹œê°„)
 	SetActorLocation(GetActorLocation() + dir * speed * DeltaTime);
 }
 
 void AEnemyActor::OnBoxCompBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	// ºÎµúÈù »ó´ë°¡ ÇÃ·¹ÀÌ¾î¶ó¸é
+	// ë¶€ë”ªíŒ ìƒëŒ€ê°€ í”Œë ˆì´ì–´ë¼ë©´
 	auto player = Cast<APlayerPawn>(OtherActor);
 	if (player != nullptr)
 	{
-		// Æø¹ß VFX¸¦ ¸¸µé¾î¼­ ÇÃ·¹ÀÌ¾î À§Ä¡¿¡ ¹èÄ¡ÇÏ°í½Í´Ù.
+		// í­ë°œ VFXë¥¼ ë§Œë“¤ì–´ì„œ í”Œë ˆì´ì–´ ìœ„ì¹˜ì— ë°°ì¹˜í•˜ê³ ì‹¶ë‹¤.
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), explosionFactory, player->GetActorLocation());
-		// ³ÊÁ×°í
+		// ë„ˆì£½ê³ 
 		player->Destroy();
 	}
-	// ³ªÁ×ÀÚ
+	// ë‚˜ì£½ì
 	Destroy();
 }
 
