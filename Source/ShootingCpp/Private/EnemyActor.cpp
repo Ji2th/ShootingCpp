@@ -7,6 +7,8 @@
 #include <Kismet/KismetMathLibrary.h>
 #include <Kismet/GameplayStatics.h>
 #include "PlayerPawn.h"
+#include "GameOverUI.h"
+#include <Blueprint/WidgetBlueprintLibrary.h>
 
 // Sets default values
 AEnemyActor::AEnemyActor()
@@ -34,9 +36,10 @@ void AEnemyActor::BeginPlay()
 	if (randValue < 3) { // 30%
 		// 방향 = 타겟 - 나
 		auto target = GetWorld()->GetFirstPlayerController()->GetPawn();
-		if (nullptr == target){
+		if (nullptr == target) {
 			dir = GetActorForwardVector();
-		}else {
+		}
+		else {
 			FVector targetLoc = target->GetActorLocation();
 
 			dir = targetLoc - GetActorLocation();
@@ -69,8 +72,20 @@ void AEnemyActor::OnBoxCompBeginOverlap(UPrimitiveComponent* OverlappedComponent
 	{
 		// 폭발 VFX를 만들어서 플레이어 위치에 배치하고싶다.
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), explosionFactory, player->GetActorLocation());
+
 		// 너죽고
 		player->Destroy();
+
+		// GameOverUI를 생성해서 보이게하고싶다.
+		auto ui = CreateWidget(GetWorld(), gameOverUIFactory);
+		if (ui)
+		{
+			ui->AddToViewport();
+		}
+		// 마우스 커서도 보이게 하고싶다.
+		GetWorld()->GetFirstPlayerController()->SetShowMouseCursor(true);
+		// InputMode를 UI모드로 하고싶다.
+		UWidgetBlueprintLibrary::SetInputMode_UIOnlyEx(GetWorld()->GetFirstPlayerController());
 	}
 	// 나죽자
 	Destroy();

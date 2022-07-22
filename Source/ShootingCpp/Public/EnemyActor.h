@@ -41,4 +41,11 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* meshComp;
+
+	// 플레이어와 부딪히면 GameOverUI를 생성해서 보이게하고싶다.
+	// 마우스 커서도 보이게 하고싶다.
+	// InputMode를 UI모드로 하고싶다.
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UGameOverUI> gameOverUIFactory;
 };

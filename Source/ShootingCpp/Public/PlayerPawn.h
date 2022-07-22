@@ -55,6 +55,14 @@ public:
 
 	void OnActionFire();
 
+	// 마우스 왼쪽 버튼을 누르면 총을 0.2초마다 자동으로 발사하고싶다.
+	FTimerHandle timerHandleAutoFire;
+	float fireTime = 0.2f;
+	void OnActionFirePressed();
+	void OnActionFireReleased();
+
+
+
 	// Fire 액션이 발생하면 소리를 출력하고싶다.
 	UPROPERTY(EditAnywhere)
 	class USoundBase* soundFire;

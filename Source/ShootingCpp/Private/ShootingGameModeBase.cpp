@@ -7,6 +7,7 @@
 #include <Components/TextBlock.h>
 #include "Kismet/GameplayStatics.h"
 #include "ShootingSaveGame.h"
+#include <Blueprint/WidgetBlueprintLibrary.h>
 
 AShootingGameModeBase::AShootingGameModeBase()
 {
@@ -27,6 +28,12 @@ void AShootingGameModeBase::BeginPlay()
 		// 태어날 때 최고점수를 UI에 출력하고싶다.
 		scoreUI->textBlockHighScore->SetText(FText::AsNumber(highScore));
 	}
+
+	// 마우스 커서도 보이게 하고싶다.
+	GetWorld()->GetFirstPlayerController()->SetShowMouseCursor(false);
+	// InputMode를 UI모드로 하고싶다.
+	UWidgetBlueprintLibrary::SetInputMode_GameOnly(GetWorld()->GetFirstPlayerController());
+
 }
 
 void AShootingGameModeBase::AddScore(int amount)

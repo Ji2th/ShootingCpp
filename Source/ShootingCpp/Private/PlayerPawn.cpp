@@ -67,7 +67,11 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	PlayerInputComponent->BindAxis(TEXT("Vertical"), this, &APlayerPawn::OnAxisVertical);
 
-	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &APlayerPawn::OnActionFire);
+	//PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &APlayerPawn::OnActionFire);
+
+	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &APlayerPawn::OnActionFirePressed);
+
+	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Released, this, &APlayerPawn::OnActionFireReleased);
 }
 
 void APlayerPawn::OnAxisHorizontal(float value)
@@ -89,5 +93,16 @@ void APlayerPawn::OnActionFire()
 
 	// 총알소리를 출력하고싶다.
 	UGameplayStatics::PlaySound2D(GetWorld(), soundFire);
+}
+
+void APlayerPawn::OnActionFirePressed()
+{
+	// 알람을 등록하고싶다.
+	GetWorldTimerManager().SetTimer(timerHandleAutoFire, this, &APlayerPawn::OnActionFire, fireTime, true, 0);
+}
+void APlayerPawn::OnActionFireReleased()
+{
+	// 알람을 해제하고싶다.
+	GetWorldTimerManager().ClearTimer(timerHandleAutoFire);
 }
 
